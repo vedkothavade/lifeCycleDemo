@@ -13,8 +13,10 @@ import kotlin.coroutines.ContinuationInterceptor
 class MainActivity : AppCompatActivity() {
     companion object {
         const val Key:String = "keystring"
-        var counter: Int = 0
     }
+
+    private var counter: Int = 0
+    lateinit var textView: TextView
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -26,13 +28,13 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         d("TAG", "onRestoreInstanceState")
         counter = savedInstanceState.getInt(Key)
-        findViewById<TextView>(R.id.text).text= "Counter: $counter"
+        textView.text = "Counter: $counter"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.text)
+        textView = findViewById<TextView>(R.id.text)
         if(savedInstanceState!=null){
             counter = savedInstanceState.getInt(Key) 
         }
