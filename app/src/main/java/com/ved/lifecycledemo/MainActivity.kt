@@ -1,5 +1,6 @@
 package com.ved.lifecycledemo
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -11,35 +12,34 @@ import kotlin.coroutines.ContinuationInterceptor
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val Key:String = "sdafasd"
-        const val textView
-
+        const val Key:String = "keystring"
+        var counter: Int = 0
     }
-    var counter:Int = 0
-    override fun onCreate(savedInstanceState: Bundle?) {
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.text)
-
-        //if (counter != null) {
-            textView.setOnClickListener {
-                counter = counter!! + 1
-                textView.text = "Counter: $counter"
-            }
-       // }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        d("TAG","onSaveInstanceState")
+        outState.putInt(Key,counter)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         d("TAG", "onRestoreInstanceState")
         counter = savedInstanceState.getInt(Key)
-        textView.text="Counter: " + counter.toString()
+        findViewById<TextView>(R.id.text).text= "Counter: $counter"
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState.putInt(Key,counter)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val textView = findViewById<TextView>(R.id.text)
+        if(savedInstanceState!=null){
+            counter = savedInstanceState.getInt(Key) 
+        }
+        textView.setOnClickListener {
+            counter++
+            textView.text = "Counter: $counter"
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
