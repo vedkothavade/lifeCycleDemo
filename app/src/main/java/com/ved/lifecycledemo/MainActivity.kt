@@ -1,22 +1,19 @@
 package com.ved.lifecycledemo
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.util.Log.*
-import android.view.View
+import android.widget.Button
 import android.widget.TextView
-import kotlin.coroutines.ContinuationInterceptor
 
 class MainActivity : AppCompatActivity() {
+
     companion object {
         const val Key:String = "keystring"
     }
-
     private var counter: Int = 0
     lateinit var textView: TextView
+    lateinit var button: Button
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -33,20 +30,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        d("TAG","onCreate")
         setContentView(R.layout.activity_main)
-        textView = findViewById<TextView>(R.id.text)
+        textView = findViewById(R.id.textView)
+        button = findViewById(R.id.button)
         if(savedInstanceState!=null){
             counter = savedInstanceState.getInt(Key) 
         }
-        textView.setOnClickListener {
+        button.setOnClickListener {
             counter++
             textView.text = "Counter: $counter"
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        d("TAG","onCreate")
     }
 
     override fun onStart() {
@@ -73,6 +67,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         d("TAG","onDestroy")
     }
-
-
 }
