@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if(savedInstanceState!=null){
-            counter = savedInstanceState.getInt(Key) 
+            counter = savedInstanceState.getInt(Key)
         }
         binding.button.setOnClickListener {
             counter++
