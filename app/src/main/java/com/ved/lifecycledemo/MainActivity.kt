@@ -3,8 +3,8 @@ package com.ved.lifecycledemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.*
-import android.widget.Button
-import android.widget.TextView
+import com.ved.lifecycledemo.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,8 +12,7 @@ class MainActivity : AppCompatActivity() {
         const val Key:String = "keystring"
     }
     private var counter: Int = 0
-    lateinit var textView: TextView
-    lateinit var button: Button
+    private lateinit var binding: ActivityMainBinding
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -25,21 +24,20 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         d("TAG", "onRestoreInstanceState")
         counter = savedInstanceState.getInt(Key)
-        textView.text = "Counter: $counter"
+        binding.textView.text = "Counter: $counter"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         d("TAG","onCreate")
-        setContentView(R.layout.activity_main)
-        textView = findViewById(R.id.textView)
-        button = findViewById(R.id.button)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if(savedInstanceState!=null){
             counter = savedInstanceState.getInt(Key) 
         }
-        button.setOnClickListener {
+        binding.button.setOnClickListener {
             counter++
-            textView.text = "Counter: $counter"
+            binding.textView.text = "Counter: $counter"
         }
     }
 
